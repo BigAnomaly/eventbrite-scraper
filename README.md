@@ -1,99 +1,118 @@
-[Eventbrite Scraper](https://apify.com/fortuitous_pirate/eventbrite-scraper?fpr=data)
+[Eventbrite Scraper](https://apify.com/newpo/eventbrite-scraper?fpr=data)
 
-# Eventbrite Scraper
+# 🎟️ Eventbrite Events Scraper (Beginner-Friendly + Backward Compatible)
 
-## Overview
+Scrape Eventbrite event data from listing/search pages in minutes.
 
-Scrape events from Eventbrite including event name, description, date, time, timezone, location, venue, price, organizer, category, and images. Supports filters (Location, Category, Date Range).
+## Input modes
 
-## Features
+### 1) Paste URL mode (original + backward compatible)
 
-- Search by keywords to find specific results
-- Filter results by category or type
-- Export data in JSON, CSV, or Excel formats
-- Captures pricing information
-- Includes location and address data
-- Captures images and media URLs
+Paste Eventbrite listing URLs directly.
 
-## Use Cases
+### 2) Guided mode (human-friendly)
 
-- **Track** - Track event listings and ticket availability
-- **Build** - Build event databases for aggregation platforms
-- **Monitor** - Monitor event pricing and scheduling trends
-- **Aggregate** - Aggregate event data for planning and discovery
+Use simple inputs like:
 
-## Input Parameters
+- **Location:** `Miami Beach, FL` or `Dallas, TX`
+- **When:** Today / This week / This weekend / This month
+- Optional **Keyword**
 
-| Parameter | Type | Description | Default |
-| --- | --- | --- | --- |
-| `location` | string **(required)** | City or address to search for events (e.g., 'austin', 'new-york', 'los-angeles') | `austin` |
-| `category` | string | Event category to filter by | `` |
-| `dateRange` | string | Filter events by date range | `` |
-| `maxItems` | integer | Maximum number of events to scrape | `50` |
-| `proxyConfiguration` | object | Proxy settings for bypassing rate limits | `{...}` |
+The actor converts your location into Eventbrite format automatically.
 
-## Output Example
+## Notes
 
-Each result contains structured data like this:
+- Existing users can continue using `startUrls` exactly as before.
+- If `startUrls` is provided, it takes priority.
+
+## Sample output
 
 ```
-{
-  "title": "Sample Events Result",
-  "date": "2025-01-15",
-  "location": "San Francisco, CA",
-  "venue": "Convention Center",
-  "price": 29.99,
-  "category": "Standard",
-  "url": "https://example.com/item/12345"
-}
+[
+  {
+    "id": "1980427365562",
+    "crawled_at": "2026-02-23T16:09:46.987Z",
+    "url": "https://www.eventbrite.com/e/icon-the-show-birthday-bash-2026-tickets-1980427365562",
+    "@context": "https://schema.org",
+    "@type": "SocialEvent",
+    "name": "ICON THE SHOW BIRTHDAY BASH 2026",
+    "description": "Get ready to party hard at ICON THE SHOW BIRTHDAY BASH 2026—big vibes, live fun, and epic memories!",
+    "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174685817%2F213302679580%2F1%2Foriginal.20260113-004538?w=480&auto=format%2Ccompress&q=75&sharp=10&s=5403a7c78b93af4fec07ff1878d4d23e",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Rose Room",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dallas",
+        "addressRegion": "TX",
+        "addressCountry": "US",
+        "streetAddress": "3911 Cedar Springs Road, Dallas, TX 75219"
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Kohl Faulkner",
+      "url": "https://www.eventbrite.com/o/kohl-faulkner-52460872393"
+    },
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "startDate": "2026-03-01T18:00:00-06:00",
+    "endDate": "2026-03-01T20:30:00-06:00",
+    "offers": [
+      {
+        "@type": "AggregateOffer",
+        "lowPrice": "30.87",
+        "highPrice": "42.42",
+        "url": "https://www.eventbrite.com/e/icon-the-show-birthday-bash-2026-tickets-1980427365562",
+        "availability": "InStock",
+        "availabilityStarts": "2026-01-12T06:00:00Z",
+        "availabilityEnds": "2026-03-01T12:00:00Z",
+        "validFrom": "2026-01-12T06:00:00Z",
+        "priceCurrency": "USD"
+      }
+    ]
+  },
+  {
+    "id": "1980051482285",
+    "crawled_at": "2026-02-23T16:09:48.385Z",
+    "url": "https://www.eventbrite.com/e/lace-mascara-and-mocktails-mixer-tickets-1980051482285",
+    "@context": "https://schema.org",
+    "@type": "SocialEvent",
+    "name": "LACE Mascara and Mocktails Mixer",
+    "description": "Ladies Alive Connect Events presents the \"Mascara and Mocktails Mixer\" - come connect and meet ladies to add to your girlfriend tribe.",
+    "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1175179863%2F759546082533%2F1%2Foriginal.20260118-175059?crop=focalpoint&fit=crop&w=480&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.871&fp-y=0.299&s=41aab90e1360f02f8feff96ccbd3ac72",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "New Covenant House",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Farmers Branch",
+        "addressRegion": "TX",
+        "addressCountry": "US",
+        "streetAddress": "12921 Senlac Drive, Farmers Branch, TX 75234"
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "New Covenant House",
+      "url": "https://www.eventbrite.com/o/new-covenant-house-39749984683"
+    },
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "startDate": "2026-02-27T19:00:00-06:00",
+    "offers": [
+      {
+        "@type": "AggregateOffer",
+        "lowPrice": "0.0",
+        "highPrice": "23.18",
+        "url": "https://www.eventbrite.com/e/lace-mascara-and-mocktails-mixer-tickets-1980051482285",
+        "availability": "InStock",
+        "availabilityStarts": "2026-01-07T06:00:00Z",
+        "availabilityEnds": "2026-02-28T01:00:00Z",
+        "validFrom": "2026-01-07T06:00:00Z",
+        "priceCurrency": "USD"
+      }
+    ]
+  }
+]
 ```
-
-## Pricing
-
-This actor uses pay-per-result pricing:
-
-- **$0.001** per result
-- **$1.00** per 1,000 results
-
-No monthly fees. You only pay for what you scrape. [Apify Free plan](https://apify.com/pricing) includes $5/month in platform credits.
-
-## How to Run
-
-### Apify Console
-
-1. Go to the [Eventbrite Scraper](https://apify.com/fortuitous_pirate/eventbrite-scraper) actor page
-2. Configure your input parameters
-3. Click **Start** and wait for the results
-4. Download data in JSON, CSV, or Excel format
-
-### API
-
-```
-curl -X POST "https://api.apify.com/v2/acts/fortuitous_pirate~eventbrite-scraper/runs?token=YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"maxItems": 10}'
-```
-
-### Python SDK
-
-```
-from apify_client import ApifyClient
-
-client = ApifyClient("YOUR_API_TOKEN")
-run = client.actor("fortuitous_pirate/eventbrite-scraper").call(
-    run_input={"maxItems": 10}
-)
-
-for item in client.dataset(run["defaultDatasetId"]).iterate_items():
-    print(item)
-```
-
-## Integration
-
-Connect Eventbrite Scraper with your existing tools and workflows:
-
-- **API access** - Programmatic access via [Apify API](https://docs.apify.com/api/v2)
-- **Webhooks** - Get notified when scraping completes
-- **Scheduling** - Set up recurring runs on any schedule
-- **Zapier / Make** - Connect with 5,000+ apps via [Apify integrations](https://apify.com/integrations)
-- **Python / Node.js SDKs** - Native client libraries for easy integration
