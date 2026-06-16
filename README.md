@@ -1,142 +1,233 @@
-[Eventbrite Scraper](https://apify.com/santamaria-automations/eventbrite-scraper?fpr=data)
+[Eventbrite Scraper](https://apify.com/lulzasaur/eventbrite-scraper?fpr=data)
 
-Scrape event data from Eventbrite.com, the world's largest event platform with millions of events in 180+ countries.
+Scrape events from [Eventbrite](https://www.eventbrite.com) — the world's largest event discovery platform. Search by keyword, location, date range, category, and price. Extract event details, venues, ticket prices, organizer info, and more.
 
-## What data can you extract?
+## Features
 
-- **Event details**: title, description, start/end dates, timezone
-- **Venue info**: name, full address, city, country, GPS coordinates
-- **Pricing**: ticket price, currency, free/paid status
-- **Organizer**: name and profile URL
-- **Categories & tags**: event category, subcategory, format, and organizer tags
-- **Media**: event image URL
+- **Search events** by keyword, city, date range, category, and price filter
+- **20+ fields** per event: title, date, time, venue, address, city, price, organizer, image, category, and more
+- **Detail page scraping** (optional) — visit each event page for full descriptions, ticket price ranges, organizer details, and tags
+- **Pagination** — automatically follows all pages of results
+- **Proxy support** — built-in residential proxy support for large-scale runs
+- **700+ cities** searchable via Eventbrite's location slugs
 
-## Use with AI Agents (MCP)
+## Output Fields
 
-Connect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.
+### Search Mode (default)
 
-**Apify MCP server URL:**
+| Field | Description |
+| --- | --- |
+| `eventId` | Eventbrite event ID |
+| `title` | Event title |
+| `date` | Start date (YYYY-MM-DD) |
+| `time` | Start time (HH:MM, 24h) |
+| `endDate` | End date |
+| `endTime` | End time |
+| `timezone` | Timezone (e.g., America/Los_Angeles) |
+| `venue` | Venue name |
+| `address` | Street address |
+| `city` | City name |
+| `state` | State/region |
+| `country` | Country code |
+| `postalCode` | Postal/ZIP code |
+| `latitude` | GPS latitude |
+| `longitude` | GPS longitude |
+| `imageUrl` | Event image URL |
+| `eventUrl` | Link to event page |
+| `category` | Event category (Music, Food & Drink, etc.) |
+| `description` | Short description/summary |
+| `isOnline` | Whether it's an online event |
+| `ticketsUrl` | Direct link to ticket purchase |
+| `searchQuery` | The search query used |
+| `scrapedAt` | ISO timestamp of scrape |
 
-```
-https://mcp.apify.com?tools=santamaria-automations/eventbrite-scraper
-```
+### Detail Mode (with `scrapeDetails: true`)
 
-**Example prompt once connected:**
+All fields above, plus:
 
-> "Use `eventbrite-scraper` to scrape company data from eventbrite. Return results as a table."
+| Field | Description |
+| --- | --- |
+| `price` | Formatted price string (e.g., "Free", "$25", "$50 - $200") |
+| `lowPrice` | Lowest ticket price (number) |
+| `highPrice` | Highest ticket price (number) |
+| `priceCurrency` | Currency code (e.g., USD) |
+| `isFree` | Whether the event is free |
+| `availability` | Ticket availability (InStock, SoldOut, etc.) |
+| `organizer` | Organizer name |
+| `organizerUrl` | Organizer profile URL |
+| `organizerDescription` | Organizer bio |
+| `fullDescription` | Full event description text |
+| `performers` | Array of performer names |
+| `tags` | Array of event tags |
+| `eventStatus` | Event status (EventScheduled, EventCancelled, etc.) |
 
-Clients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.
+## Example Output
 
-## How to use
-
-### Option 1: Search URLs
-
-Paste any Eventbrite search URL directly:
-
-```
-{
-  "searchUrls": [
-    "https://www.eventbrite.com/d/germany/tech/",
-    "https://www.eventbrite.com/d/ca--san-francisco/conferences/"
-  ],
-  "maxResults": 100
-}
-```
-
-### Option 2: Search query + location
-
-```
-{
-  "searchQuery": "tech",
-  "location": "germany",
-  "maxResults": 50
-}
-```
-
-### Location format
-
-Eventbrite uses URL slugs for locations:
-
-- Countries: `germany`, `united-states`, `france`
-- Regions: `united-states--new-york`, `germany--berlin`
-- Cities: `ca--san-francisco`, `united-kingdom--london`
-- Online: `online`
-
-## Input parameters
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `searchUrls` | string[] | - | Eventbrite search page URLs |
-| `searchQuery` | string | - | Search keyword |
-| `location` | string | `germany` | Location slug for URL building |
-| `maxResults` | integer | 100 | Maximum events to scrape (1-5000) |
-| `proxyConfiguration` | object | RESIDENTIAL proxy | Proxy settings (residential required) |
-
-## Output example
+### Search Result
 
 ```
 {
-  "id": "1982303023706",
-  "title": "Women in Tech Connect Berlin 2026",
-  "description": "This event is part of the Women in Tech Global Conference...",
-  "start_date": "2026-05-12T09:00:00+02:00",
-  "end_date": "2026-05-12T18:00:00+02:00",
-  "timezone": "Europe/Berlin",
-  "url": "https://www.eventbrite.com/e/women-in-tech-connect-berlin-tickets-1980168035900",
-  "image_url": "https://img.evbuc.com/...",
-  "is_free": false,
-  "is_online": false,
-  "price": "49.00",
-  "currency": "EUR",
-  "venue_name": "Berlin Conference Center",
-  "venue_address": "Alexanderplatz 1, 10178 Berlin",
-  "venue_city": "Berlin",
-  "venue_country": "DE",
-  "latitude": 52.5200,
-  "longitude": 13.4050,
-  "organizer_name": "Women in Tech Network",
-  "organizer_url": "https://www.eventbrite.com/o/women-in-tech-12345",
-  "category": "Science & Technology",
-  "tags": ["High Tech", "Conference", "Networking"],
-  "attendee_count": null,
-  "source_url": "https://www.eventbrite.com/d/germany/tech/",
-  "source_platform": "eventbrite.com",
-  "scraped_at": "2026-03-31T12:00:00Z"
+  "eventId": "1969285167949",
+  "title": "AI Dev 26 x SF — The AI Developer Conference",
+  "date": "2026-04-28",
+  "time": "07:00",
+  "endDate": "2026-04-29",
+  "endTime": "18:00",
+  "timezone": "America/Los_Angeles",
+  "venue": "Pier 48 Shed B",
+  "address": "Pier 48",
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "US",
+  "postalCode": "94158",
+  "latitude": 37.7749,
+  "longitude": -122.4194,
+  "imageUrl": "https://img.evbuc.com/...",
+  "eventUrl": "https://www.eventbrite.com/e/ai-dev-26-x-sf-...",
+  "category": "Science & Tech",
+  "description": "Join us for two days of coding, learning, and connecting...",
+  "isOnline": false,
+  "scrapedAt": "2026-04-23T12:00:00.000Z"
 }
 ```
 
-## Performance
+### Detail Result (with scrapeDetails)
 
-- ~128MB memory (Go binary with TLS fingerprinting)
-- ~20 events per search page
-- Fetches detail pages for price and organizer data
-- RESIDENTIAL proxy required (Eventbrite blocks datacenter IPs)
+```
+{
+  "eventId": "1969285167949",
+  "title": "AI Dev 26 x SF — The AI Developer Conference",
+  "date": "2026-04-28",
+  "time": "07:00",
+  "venue": "Pier 48 Shed B",
+  "city": "San Francisco",
+  "state": "CA",
+  "price": "$534.31 - $1387.97",
+  "lowPrice": 534.31,
+  "highPrice": 1387.97,
+  "priceCurrency": "USD",
+  "isFree": false,
+  "availability": "InStock",
+  "organizer": "DeepLearning.AI",
+  "organizerUrl": "https://www.eventbrite.com/o/deeplearningai-19822694300",
+  "fullDescription": "Join us for two days of coding, learning, and connecting to build AI applications...",
+  "tags": ["Science & Tech", "Conference"],
+  "scrapedAt": "2026-04-23T12:00:00.000Z"
+}
+```
 
-## Pricing
+## Input Examples
 
-Pay per result: $0.003 per event extracted.
+### Search events by keyword
 
-## Related Actors
+```
+{
+  "query": "jazz",
+  "location": "ca--san-francisco",
+  "limit": 50
+}
+```
 
-**Related Scrapers**
+### Free events this weekend
 
-- [Google News Scraper — News articles](https://apify.com/santamaria-automations/google-news-scraper)
-- [YouTube Scraper — Video & channel data](https://apify.com/santamaria-automations/youtube-scraper)
-- [Similarweb Scraper — Website analytics](https://apify.com/santamaria-automations/similarweb-scraper)
+```
+{
+  "location": "ny--new-york",
+  "dateRange": "this-weekend",
+  "priceRange": "free",
+  "limit": 100
+}
+```
 
-**European Classifieds**
+### Music events with full details
 
-- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)
-- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)
-- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)
-- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)
+```
+{
+  "location": "il--chicago",
+  "category": "music",
+  "scrapeDetails": true,
+  "limit": 30
+}
+```
 
-**Enrich your data**
+### Business events this month
 
-- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)
-- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)
-- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)
+```
+{
+  "query": "conference",
+  "location": "wa--seattle",
+  "category": "business",
+  "dateRange": "this-month",
+  "limit": 50
+}
+```
 
-## Issues & Feature Requests
+## Location Slugs
 
-If something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/bn1zqW7IDOoj5evZl/issues) and we'll look into it.
+Common location slugs for the `location` input:
+
+| Location | Slug |
+| --- | --- |
+| San Francisco | `ca--san-francisco` |
+| New York | `ny--new-york` |
+| Los Angeles | `ca--los-angeles` |
+| Chicago | `il--chicago` |
+| Austin | `tx--austin` |
+| Seattle | `wa--seattle` |
+| Denver | `co--denver` |
+| Boston | `ma--boston` |
+| Miami | `fl--miami` |
+| Portland | `or--portland` |
+| Online Events | `online--online` |
+
+Format: `{state-abbreviation}--{city-name}` (lowercase, dashes for spaces)
+
+## Use Cases
+
+- **Event discovery** — Find events in any city by keyword, category, or date
+- **Market research** — Analyze event pricing, categories, and trends
+- **Competitor analysis** — Track events by specific organizers or categories
+- **Venue intelligence** — Map events to venues and locations
+- **Price monitoring** — Track ticket pricing across events
+- **Content curation** — Build event feeds for newsletters or apps
+- **Community management** — Find relevant events for your community
+
+## Date Filters
+
+| Filter | Description |
+| --- | --- |
+| `today` | Events happening today |
+| `tomorrow` | Events happening tomorrow |
+| `this-weekend` | Events this weekend |
+| `this-week` | Events this week |
+| `next-week` | Events next week |
+| `this-month` | Events this month |
+| `next-month` | Events next month |
+
+## Category Filters
+
+| Category | Slug |
+| --- | --- |
+| Music | `music` |
+| Food & Drink | `food-and-drink` |
+| Business | `business` |
+| Performing & Visual Arts | `performing-visual-arts` |
+| Health | `health` |
+| Science & Tech | `science-and-tech` |
+| Sports & Fitness | `sports-and-fitness` |
+| Travel & Outdoor | `travel-and-outdoor` |
+| Charity & Causes | `charity-and-causes` |
+| Community | `community` |
+| Film & Media | `film-and-media` |
+| Fashion | `fashion` |
+| Hobbies | `hobbies` |
+| Home & Lifestyle | `home-and-lifestyle` |
+| Family & Education | `family-and-education` |
+
+---
+
+## Run on Apify
+
+This scraper runs on the [Apify platform](https://apify.com/?fpr=lulzasaur) — a full-stack web scraping and automation cloud. Sign up for a free account to get started with a 30-day trial of all features.
+
+[Try Apify free ->](https://apify.com/?fpr=lulzasaur)
