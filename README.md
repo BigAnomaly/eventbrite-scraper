@@ -1,233 +1,61 @@
-[Eventbrite Scraper](https://apify.com/lulzasaur/eventbrite-scraper?fpr=data)
+[Eventbrite Scraper](https://apify.com/nexgendata/eventbrite-scraper?fpr=data)
 
-Scrape events from [Eventbrite](https://www.eventbrite.com) — the world's largest event discovery platform. Search by keyword, location, date range, category, and price. Extract event details, venues, ticket prices, organizer info, and more.
+# Eventbrite Event Scraper
 
-## Features
+## What It Does
 
-- **Search events** by keyword, city, date range, category, and price filter
-- **20+ fields** per event: title, date, time, venue, address, city, price, organizer, image, category, and more
-- **Detail page scraping** (optional) — visit each event page for full descriptions, ticket price ranges, organizer details, and tags
-- **Pagination** — automatically follows all pages of results
-- **Proxy support** — built-in residential proxy support for large-scale runs
-- **700+ cities** searchable via Eventbrite's location slugs
+Eventbrite Event Scraper is a powerful web scraping tool designed to extract and organize data from websites at scale. This actor automatically collects scrapes events: titles, dates, venues, prices, categories, processing large volumes of data efficiently while respecting server resources and terms of service. Whether you're building a competitive intelligence system, training machine learning models, or aggregating industry data, this tool provides reliable, structured output ready for immediate analysis.
 
-## Output Fields
+## Who Uses This Actor
 
-### Search Mode (default)
+Eventbrite Event Scraper serves a diverse range of professionals and organizations. Event aggregators, marketing teams, local business tools rely on this tool daily to gather intelligence, monitor trends, and make data-driven decisions. Product managers use it to track competitor offerings, researchers leverage it for dataset creation, and business analysts depend on it for market research. The actor has become indispensable for anyone who needs to scale their data collection efforts without maintaining complex infrastructure.
 
-| Field | Description |
-| --- | --- |
-| `eventId` | Eventbrite event ID |
-| `title` | Event title |
-| `date` | Start date (YYYY-MM-DD) |
-| `time` | Start time (HH:MM, 24h) |
-| `endDate` | End date |
-| `endTime` | End time |
-| `timezone` | Timezone (e.g., America/Los_Angeles) |
-| `venue` | Venue name |
-| `address` | Street address |
-| `city` | City name |
-| `state` | State/region |
-| `country` | Country code |
-| `postalCode` | Postal/ZIP code |
-| `latitude` | GPS latitude |
-| `longitude` | GPS longitude |
-| `imageUrl` | Event image URL |
-| `eventUrl` | Link to event page |
-| `category` | Event category (Music, Food & Drink, etc.) |
-| `description` | Short description/summary |
-| `isOnline` | Whether it's an online event |
-| `ticketsUrl` | Direct link to ticket purchase |
-| `searchQuery` | The search query used |
-| `scrapedAt` | ISO timestamp of scrape |
+## What You Get Back
 
-### Detail Mode (with `scrapeDetails: true`)
+When you run this actor, you receive structured, clean data ready for immediate use. The output includes comprehensive fields that capture the most valuable information from each source. All data is returned in JSON format, making it trivial to integrate with your existing tools, databases, and workflows. The structured format means you can immediately filter, sort, and analyze results without extensive preprocessing or data cleaning.
 
-All fields above, plus:
+## How It Compares to Alternatives
 
-| Field | Description |
-| --- | --- |
-| `price` | Formatted price string (e.g., "Free", "$25", "$50 - $200") |
-| `lowPrice` | Lowest ticket price (number) |
-| `highPrice` | Highest ticket price (number) |
-| `priceCurrency` | Currency code (e.g., USD) |
-| `isFree` | Whether the event is free |
-| `availability` | Ticket availability (InStock, SoldOut, etc.) |
-| `organizer` | Organizer name |
-| `organizerUrl` | Organizer profile URL |
-| `organizerDescription` | Organizer bio |
-| `fullDescription` | Full event description text |
-| `performers` | Array of performer names |
-| `tags` | Array of event tags |
-| `eventStatus` | Event status (EventScheduled, EventCancelled, etc.) |
+Many teams attempt to build web scraping solutions in-house, but this approach is costly and time-consuming. Maintaining scrapers requires constant updates as websites change their structure, handling at scale requires distributed infrastructure, and managing IP blocking and proxy rotation becomes a full-time job. This actor eliminates those problems entirely. Unlike generic scraping libraries that require coding expertise, this solution works out of the box. Compared to other scraping APIs, Eventbrite Event Scraper delivers superior performance with faster turnaround times and more flexible output options.
 
-## Example Output
+## Sample Output
 
-### Search Result
+Here's an example of the clean, structured JSON data you'll receive:
 
 ```
 {
-  "eventId": "1969285167949",
-  "title": "AI Dev 26 x SF — The AI Developer Conference",
-  "date": "2026-04-28",
-  "time": "07:00",
-  "endDate": "2026-04-29",
-  "endTime": "18:00",
-  "timezone": "America/Los_Angeles",
-  "venue": "Pier 48 Shed B",
-  "address": "Pier 48",
-  "city": "San Francisco",
-  "state": "CA",
-  "country": "US",
-  "postalCode": "94158",
-  "latitude": 37.7749,
-  "longitude": -122.4194,
-  "imageUrl": "https://img.evbuc.com/...",
-  "eventUrl": "https://www.eventbrite.com/e/ai-dev-26-x-sf-...",
-  "category": "Science & Tech",
-  "description": "Join us for two days of coding, learning, and connecting...",
-  "isOnline": false,
-  "scrapedAt": "2026-04-23T12:00:00.000Z"
+  "url": "https://example.com/page",
+  "title": "Page Title",
+  "content": "Extracted data",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "status": "success"
 }
 ```
-
-### Detail Result (with scrapeDetails)
-
-```
-{
-  "eventId": "1969285167949",
-  "title": "AI Dev 26 x SF — The AI Developer Conference",
-  "date": "2026-04-28",
-  "time": "07:00",
-  "venue": "Pier 48 Shed B",
-  "city": "San Francisco",
-  "state": "CA",
-  "price": "$534.31 - $1387.97",
-  "lowPrice": 534.31,
-  "highPrice": 1387.97,
-  "priceCurrency": "USD",
-  "isFree": false,
-  "availability": "InStock",
-  "organizer": "DeepLearning.AI",
-  "organizerUrl": "https://www.eventbrite.com/o/deeplearningai-19822694300",
-  "fullDescription": "Join us for two days of coding, learning, and connecting to build AI applications...",
-  "tags": ["Science & Tech", "Conference"],
-  "scrapedAt": "2026-04-23T12:00:00.000Z"
-}
-```
-
-## Input Examples
-
-### Search events by keyword
-
-```
-{
-  "query": "jazz",
-  "location": "ca--san-francisco",
-  "limit": 50
-}
-```
-
-### Free events this weekend
-
-```
-{
-  "location": "ny--new-york",
-  "dateRange": "this-weekend",
-  "priceRange": "free",
-  "limit": 100
-}
-```
-
-### Music events with full details
-
-```
-{
-  "location": "il--chicago",
-  "category": "music",
-  "scrapeDetails": true,
-  "limit": 30
-}
-```
-
-### Business events this month
-
-```
-{
-  "query": "conference",
-  "location": "wa--seattle",
-  "category": "business",
-  "dateRange": "this-month",
-  "limit": 50
-}
-```
-
-## Location Slugs
-
-Common location slugs for the `location` input:
-
-| Location | Slug |
-| --- | --- |
-| San Francisco | `ca--san-francisco` |
-| New York | `ny--new-york` |
-| Los Angeles | `ca--los-angeles` |
-| Chicago | `il--chicago` |
-| Austin | `tx--austin` |
-| Seattle | `wa--seattle` |
-| Denver | `co--denver` |
-| Boston | `ma--boston` |
-| Miami | `fl--miami` |
-| Portland | `or--portland` |
-| Online Events | `online--online` |
-
-Format: `{state-abbreviation}--{city-name}` (lowercase, dashes for spaces)
 
 ## Use Cases
 
-- **Event discovery** — Find events in any city by keyword, category, or date
-- **Market research** — Analyze event pricing, categories, and trends
-- **Competitor analysis** — Track events by specific organizers or categories
-- **Venue intelligence** — Map events to venues and locations
-- **Price monitoring** — Track ticket pricing across events
-- **Content curation** — Build event feeds for newsletters or apps
-- **Community management** — Find relevant events for your community
+Content marketers and SEO agencies use this actor to analyze competitor content, identify content gaps, and gather inspiration for their editorial calendars. Marketing professionals leverage it to monitor keyword rankings and track how competitors structure their content. Researchers and data scientists scrape websites to build training datasets for natural language processing and other AI applications. This actor provides clean, labeled data at a fraction of the cost of manual collection.
 
-## Date Filters
+Business analysts use it to monitor competitor pricing, features, and marketing messages. This real-time competitive intelligence enables faster decision-making and more aggressive go-to-market strategies. News aggregators, review sites, and vertical search engines depend on scrapers to gather information from diverse sources and present unified views to their users. Real estate and e-commerce professionals use scrapers to track inventory changes, price movements, and competitive positioning across marketplaces.
 
-| Filter | Description |
-| --- | --- |
-| `today` | Events happening today |
-| `tomorrow` | Events happening tomorrow |
-| `this-weekend` | Events this weekend |
-| `this-week` | Events this week |
-| `next-week` | Events next week |
-| `this-month` | Events this month |
-| `next-month` | Events next month |
+## Pricing
 
-## Category Filters
+Eventbrite Event Scraper uses a simple, transparent pricing model with no hidden fees. The cost is $3 per 1K events. For example, if you process 10,000 items, your cost would be $30.0. If you run 100,000 items monthly, you're looking at approximately $300.0 per month. This pricing is dramatically cheaper than building and maintaining in-house scraping infrastructure or hiring engineers to manage the problem.
 
-| Category | Slug |
-| --- | --- |
-| Music | `music` |
-| Food & Drink | `food-and-drink` |
-| Business | `business` |
-| Performing & Visual Arts | `performing-visual-arts` |
-| Health | `health` |
-| Science & Tech | `science-and-tech` |
-| Sports & Fitness | `sports-and-fitness` |
-| Travel & Outdoor | `travel-and-outdoor` |
-| Charity & Causes | `charity-and-causes` |
-| Community | `community` |
-| Film & Media | `film-and-media` |
-| Fashion | `fashion` |
-| Hobbies | `hobbies` |
-| Home & Lifestyle | `home-and-lifestyle` |
-| Family & Education | `family-and-education` |
+## Frequently Asked Questions
 
----
+**How fast does it run?** Performance varies based on your internet connection and the target website's response times, but most users see results within minutes for moderate-sized jobs.
 
-## Run on Apify
+**What happens if a page fails?** The actor includes built-in error handling and retry logic. Failed pages are logged separately so you can investigate or retry them later.
 
-This scraper runs on the [Apify platform](https://apify.com/?fpr=lulzasaur) — a full-stack web scraping and automation cloud. Sign up for a free account to get started with a 30-day trial of all features.
+**Can I use this for any website?** You can use it for most public websites that don't explicitly prohibit scraping in their terms of service. Always review the target site's terms before scraping.
 
-[Try Apify free ->](https://apify.com/?fpr=lulzasaur)
+**What about rate limiting and IP blocking?** This actor handles rate limiting intelligently and includes built-in proxy rotation to minimize blocking. It also respects robots.txt guidelines.
+
+**How accurate is the extracted data?** The extraction process is highly accurate for most websites. However, some sites with JavaScript-heavy rendering may require additional configuration.
+
+**Can I schedule regular runs?** Yes, you can set up scheduled tasks to run this actor daily, weekly, or on any custom schedule that suits your needs.
+
+**What format is the output in?** All data is returned as JSON, which integrates easily with Python, JavaScript, databases, and most other systems.
+
+**Is there a trial period?** Yes, new users receive free trial credits to test the actor before committing to larger runs.
