@@ -1,118 +1,142 @@
-[Eventbrite Scraper](https://apify.com/newpo/eventbrite-scraper?fpr=data)
+[Eventbrite Scraper](https://apify.com/santamaria-automations/eventbrite-scraper?fpr=data)
 
-# 🎟️ Eventbrite Events Scraper (Beginner-Friendly + Backward Compatible)
+Scrape event data from Eventbrite.com, the world's largest event platform with millions of events in 180+ countries.
 
-Scrape Eventbrite event data from listing/search pages in minutes.
+## What data can you extract?
 
-## Input modes
+- **Event details**: title, description, start/end dates, timezone
+- **Venue info**: name, full address, city, country, GPS coordinates
+- **Pricing**: ticket price, currency, free/paid status
+- **Organizer**: name and profile URL
+- **Categories & tags**: event category, subcategory, format, and organizer tags
+- **Media**: event image URL
 
-### 1) Paste URL mode (original + backward compatible)
+## Use with AI Agents (MCP)
 
-Paste Eventbrite listing URLs directly.
+Connect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.
 
-### 2) Guided mode (human-friendly)
-
-Use simple inputs like:
-
-- **Location:** `Miami Beach, FL` or `Dallas, TX`
-- **When:** Today / This week / This weekend / This month
-- Optional **Keyword**
-
-The actor converts your location into Eventbrite format automatically.
-
-## Notes
-
-- Existing users can continue using `startUrls` exactly as before.
-- If `startUrls` is provided, it takes priority.
-
-## Sample output
+**Apify MCP server URL:**
 
 ```
-[
-  {
-    "id": "1980427365562",
-    "crawled_at": "2026-02-23T16:09:46.987Z",
-    "url": "https://www.eventbrite.com/e/icon-the-show-birthday-bash-2026-tickets-1980427365562",
-    "@context": "https://schema.org",
-    "@type": "SocialEvent",
-    "name": "ICON THE SHOW BIRTHDAY BASH 2026",
-    "description": "Get ready to party hard at ICON THE SHOW BIRTHDAY BASH 2026—big vibes, live fun, and epic memories!",
-    "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174685817%2F213302679580%2F1%2Foriginal.20260113-004538?w=480&auto=format%2Ccompress&q=75&sharp=10&s=5403a7c78b93af4fec07ff1878d4d23e",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "location": {
-      "@type": "Place",
-      "name": "Rose Room",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Dallas",
-        "addressRegion": "TX",
-        "addressCountry": "US",
-        "streetAddress": "3911 Cedar Springs Road, Dallas, TX 75219"
-      }
-    },
-    "organizer": {
-      "@type": "Organization",
-      "name": "Kohl Faulkner",
-      "url": "https://www.eventbrite.com/o/kohl-faulkner-52460872393"
-    },
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "startDate": "2026-03-01T18:00:00-06:00",
-    "endDate": "2026-03-01T20:30:00-06:00",
-    "offers": [
-      {
-        "@type": "AggregateOffer",
-        "lowPrice": "30.87",
-        "highPrice": "42.42",
-        "url": "https://www.eventbrite.com/e/icon-the-show-birthday-bash-2026-tickets-1980427365562",
-        "availability": "InStock",
-        "availabilityStarts": "2026-01-12T06:00:00Z",
-        "availabilityEnds": "2026-03-01T12:00:00Z",
-        "validFrom": "2026-01-12T06:00:00Z",
-        "priceCurrency": "USD"
-      }
-    ]
-  },
-  {
-    "id": "1980051482285",
-    "crawled_at": "2026-02-23T16:09:48.385Z",
-    "url": "https://www.eventbrite.com/e/lace-mascara-and-mocktails-mixer-tickets-1980051482285",
-    "@context": "https://schema.org",
-    "@type": "SocialEvent",
-    "name": "LACE Mascara and Mocktails Mixer",
-    "description": "Ladies Alive Connect Events presents the \"Mascara and Mocktails Mixer\" - come connect and meet ladies to add to your girlfriend tribe.",
-    "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1175179863%2F759546082533%2F1%2Foriginal.20260118-175059?crop=focalpoint&fit=crop&w=480&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.871&fp-y=0.299&s=41aab90e1360f02f8feff96ccbd3ac72",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "location": {
-      "@type": "Place",
-      "name": "New Covenant House",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Farmers Branch",
-        "addressRegion": "TX",
-        "addressCountry": "US",
-        "streetAddress": "12921 Senlac Drive, Farmers Branch, TX 75234"
-      }
-    },
-    "organizer": {
-      "@type": "Organization",
-      "name": "New Covenant House",
-      "url": "https://www.eventbrite.com/o/new-covenant-house-39749984683"
-    },
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "startDate": "2026-02-27T19:00:00-06:00",
-    "offers": [
-      {
-        "@type": "AggregateOffer",
-        "lowPrice": "0.0",
-        "highPrice": "23.18",
-        "url": "https://www.eventbrite.com/e/lace-mascara-and-mocktails-mixer-tickets-1980051482285",
-        "availability": "InStock",
-        "availabilityStarts": "2026-01-07T06:00:00Z",
-        "availabilityEnds": "2026-02-28T01:00:00Z",
-        "validFrom": "2026-01-07T06:00:00Z",
-        "priceCurrency": "USD"
-      }
-    ]
-  }
-]
+https://mcp.apify.com?tools=santamaria-automations/eventbrite-scraper
 ```
+
+**Example prompt once connected:**
+
+> "Use `eventbrite-scraper` to scrape company data from eventbrite. Return results as a table."
+
+Clients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.
+
+## How to use
+
+### Option 1: Search URLs
+
+Paste any Eventbrite search URL directly:
+
+```
+{
+  "searchUrls": [
+    "https://www.eventbrite.com/d/germany/tech/",
+    "https://www.eventbrite.com/d/ca--san-francisco/conferences/"
+  ],
+  "maxResults": 100
+}
+```
+
+### Option 2: Search query + location
+
+```
+{
+  "searchQuery": "tech",
+  "location": "germany",
+  "maxResults": 50
+}
+```
+
+### Location format
+
+Eventbrite uses URL slugs for locations:
+
+- Countries: `germany`, `united-states`, `france`
+- Regions: `united-states--new-york`, `germany--berlin`
+- Cities: `ca--san-francisco`, `united-kingdom--london`
+- Online: `online`
+
+## Input parameters
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `searchUrls` | string[] | - | Eventbrite search page URLs |
+| `searchQuery` | string | - | Search keyword |
+| `location` | string | `germany` | Location slug for URL building |
+| `maxResults` | integer | 100 | Maximum events to scrape (1-5000) |
+| `proxyConfiguration` | object | RESIDENTIAL proxy | Proxy settings (residential required) |
+
+## Output example
+
+```
+{
+  "id": "1982303023706",
+  "title": "Women in Tech Connect Berlin 2026",
+  "description": "This event is part of the Women in Tech Global Conference...",
+  "start_date": "2026-05-12T09:00:00+02:00",
+  "end_date": "2026-05-12T18:00:00+02:00",
+  "timezone": "Europe/Berlin",
+  "url": "https://www.eventbrite.com/e/women-in-tech-connect-berlin-tickets-1980168035900",
+  "image_url": "https://img.evbuc.com/...",
+  "is_free": false,
+  "is_online": false,
+  "price": "49.00",
+  "currency": "EUR",
+  "venue_name": "Berlin Conference Center",
+  "venue_address": "Alexanderplatz 1, 10178 Berlin",
+  "venue_city": "Berlin",
+  "venue_country": "DE",
+  "latitude": 52.5200,
+  "longitude": 13.4050,
+  "organizer_name": "Women in Tech Network",
+  "organizer_url": "https://www.eventbrite.com/o/women-in-tech-12345",
+  "category": "Science & Technology",
+  "tags": ["High Tech", "Conference", "Networking"],
+  "attendee_count": null,
+  "source_url": "https://www.eventbrite.com/d/germany/tech/",
+  "source_platform": "eventbrite.com",
+  "scraped_at": "2026-03-31T12:00:00Z"
+}
+```
+
+## Performance
+
+- ~128MB memory (Go binary with TLS fingerprinting)
+- ~20 events per search page
+- Fetches detail pages for price and organizer data
+- RESIDENTIAL proxy required (Eventbrite blocks datacenter IPs)
+
+## Pricing
+
+Pay per result: $0.003 per event extracted.
+
+## Related Actors
+
+**Related Scrapers**
+
+- [Google News Scraper — News articles](https://apify.com/santamaria-automations/google-news-scraper)
+- [YouTube Scraper — Video & channel data](https://apify.com/santamaria-automations/youtube-scraper)
+- [Similarweb Scraper — Website analytics](https://apify.com/santamaria-automations/similarweb-scraper)
+
+**European Classifieds**
+
+- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)
+- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)
+- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)
+- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)
+
+**Enrich your data**
+
+- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)
+- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)
+- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)
+
+## Issues & Feature Requests
+
+If something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/bn1zqW7IDOoj5evZl/issues) and we'll look into it.
